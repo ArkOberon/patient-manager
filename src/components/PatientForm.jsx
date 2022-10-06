@@ -1,21 +1,49 @@
 import { useState, useEffect } from "react"
+import Error from "./Error"
 
-const PatientForm = () => {
+const PatientForm = ({ patients, setPatients }) => {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
   const [date, setDate] = useState("")
   const [symptoms, setSymptoms] = useState("")
 
+  const [error, setError] = useState(false)
+
+  const generarId = () => {
+    const random = Math.random().toString(36).substring(2)
+    const fecha = Date.now().toString(36)
+
+    return random + fecha
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
 
     // Validación del Formulario
     if([firstName, lastName, email, date, symptoms].includes("")) {
-      console.log("faltan campos por rellenar")
-    } else {
-      console.log("todo está correcto")
-    }
+      setError(true)
+      return
+    } 
+
+    setError(false)
+
+    const infoPatient = {
+      firstName, 
+      lastName, 
+      email, 
+      date, 
+      symptoms,
+      id: generarId()
+    }  
+
+    setPatients([...patients, infoPatient])
+
+    setFirstName("")
+    setLastName("")
+    setEmail("")
+    setDate("")
+    setSymptoms("")
   }
 
   return (
@@ -27,6 +55,8 @@ const PatientForm = () => {
         onSubmit={handleSubmit}
         className="bg-gray-100 shadow-lg rounded-lg py-10 px-5 mb-10"
       >
+        {error && <Error message="Please, fill all fields"/>}
+        
         <div className="mb-5">
           <label htmlFor="firstName" className="block text-gray-700 uppercase font-bold">
             First Name
@@ -99,7 +129,7 @@ const PatientForm = () => {
         <input 
           type="submit" 
           value="Add Patient"
-          className="bg-teal-700 w-full p-3 text-white uppercase font-bold
+          className="bg-teal-500 w-full p-3 text-white uppercase font-bold
            hover:bg-yellow-500 rounded-lg cursor-pointer transition-all"        
         />               
       </form>    
