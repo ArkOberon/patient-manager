@@ -1,4 +1,4 @@
-const Patient = ({ infoPatients }) => {
+const Patient = ({ infoPatients, setInfoPatient }) => {
 
   const { firstName, lastName, email, date, symptoms } = infoPatients
 
@@ -27,14 +27,15 @@ const Patient = ({ infoPatients }) => {
         <button
           type="button"
           className="py-2 px-10 bg-teal-500 text-white font-bold hover:bg-teal-700 rounded-lg"
+          onClick={() => setInfoPatient(infoPatients)}
         >
-          Editar
+          Edit
         </button>
         <button 
           type="button"
           className="py-2 px-10 bg-red-600 text-white font-bold hover:bg-red-900 rounded-lg"
         >
-          Eliminar
+          Delete
         </button>
       </div>  
     </div>    
