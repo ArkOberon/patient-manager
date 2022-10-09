@@ -13,14 +13,15 @@ This Web App is a [ReactJS](https://reactjs.org/) project created with [`Vite`](
 
 Install project's dependencies
 
-```Terminal
+```Bash
 npm install
 ```
 
 Then, run the development server:
 
-```Terminal
+```Bash
 npm run dev
+```
 
 Open Local: Addres (for example: http://121.1.1.1:3163/) with your browser to see the result.
 
