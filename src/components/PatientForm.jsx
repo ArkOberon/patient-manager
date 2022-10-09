@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import Error from "./Error"
 
-const PatientForm = ({ patients, setPatients, infoPatient }) => {
+const PatientForm = ({ patients, setPatients, infoPatient, setInfoPatient }) => {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -10,8 +10,14 @@ const PatientForm = ({ patients, setPatients, infoPatient }) => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    
-  },[infoPatient])
+    if ( Object.keys(infoPatient).length > 0 ) {
+      setFirstName(infoPatient.firstName)
+      setLastName(infoPatient.lastName)
+      setEmail(infoPatient.email)
+      setDate(infoPatient.date)
+      setSymptoms(infoPatient.symptoms)
+    }
+  }, [infoPatient])  
 
   const generarId = () => {
     const random = Math.random().toString(36).substring(2)
@@ -31,16 +37,26 @@ const PatientForm = ({ patients, setPatients, infoPatient }) => {
 
     setError(false)
 
-    const infoPatient = {
+    const objectPatients = {
       firstName, 
       lastName, 
       email, 
       date, 
-      symptoms,
-      id: generarId()
+      symptoms      
     }  
 
-    setPatients([...patients, infoPatient])
+    if(infoPatient.id) {
+      objectPatients.id = infoPatient.id
+
+      const patientUpdate = patients.map( infoPatientState => infoPatientState.id === infoPatient.id ? objectPatients : infoPatientState )
+      
+      setPatients(patientUpdate)
+      setInfoPatient({})
+      
+    } else {
+      objectPatients.id = generarId()
+      setPatients([...patients, objectPatients])
+    }    
 
     setFirstName("")
     setLastName("")
@@ -131,7 +147,7 @@ const PatientForm = ({ patients, setPatients, infoPatient }) => {
 
         <input 
           type="submit" 
-          value="Add Patient"
+          value={infoPatient.id ? "Edit Patient" : "Add Patient"}
           className="bg-teal-500 w-full p-3 text-white uppercase font-bold
            hover:bg-yellow-500 rounded-lg cursor-pointer transition-all"        
         />               
