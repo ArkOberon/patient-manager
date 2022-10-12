@@ -44,8 +44,7 @@ function App() {
           setInfoPatient={setInfoPatient}  
           deletePatient={deletePatient}   
         />
-      </div>
-      
+      </div>      
     </div>
   )
 }
